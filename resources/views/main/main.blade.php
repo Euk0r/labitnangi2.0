@@ -8,8 +8,11 @@
     <title>ИИТУТС @yield('title')</title>
     <link rel="stylesheet" href={{ asset('css/app.css') }}>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src={{ asset('libs/jquery.js') }}></script>
+    <!--<script src={{ asset('libs/jquery.js') }}></script>-->
     <script src={{ asset('js/app.js') }}></script>
+    <!--<script src="https://raw.githubusercontent.com/ressio/lazy-load-xt/master/dist/jqlight.lazyloadxt.min.js"></script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="jquery.lazyload.min.js" type="text/javascript"></script>
     <?= $head ?>
 </head>
 <body>
@@ -20,6 +23,15 @@
 <?= $main_nav ?>
 
 <main>
+    <div class="search-section">
+        <form role="search" method="get" class="search-form" action="https://localhost:3000/">
+            <label>
+                <span class="screen-reader-text">Искать:</span>
+                <input type="search" class="search-field" placeholder="Поиск…" value="" name="s" title="Искать:">
+            </label>
+            <input type="submit" class="search-submit" value="Поиск">
+        </form>
+    </div>
     <div class="content">
         <div class="container">
             <div class="inner-wrapper">

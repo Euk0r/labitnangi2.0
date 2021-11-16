@@ -8,7 +8,9 @@ Route::prefix('')->group(function () {
     //Route::view('/', 'main.main')->name('main');
     //view("main.main", ['data' => $page = \App\Http\Models\Main::getPage()]);
     //Route::view('/', 'main.main', ["data" => \App\Http\Controllers\Main::openPage(),])->name('main');
-    Route::get('{page}', 'App\Http\Controllers\Main@openPage')->name('page_url');
+    //Route::get('{page}', 'App\Http\Controllers\Main@openPage')->name('page_url');
+    //Route::get('/', 'App\Http\Controllers\Main@openPage')->name('page_url');
+    Route::get(\App\Http\Models\Main::getCurrentRoute(), 'App\Http\Controllers\Main@openPage')->name('page_url');
 });
 
 /*
