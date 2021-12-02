@@ -44,13 +44,9 @@ class Main extends Model
                 //print_r($href);
                 $item->setAttribute('href', self::after('/', $_SERVER['SERVER_NAME']) . $href);
             }
-            //$href = str_replace('/', '++', $item->getAttribute('href'));
-            //$server = self::after('/', $_SERVER['SERVER_NAME']);
-            //$temp = $server . '/' . $href;
-            //$item->setAttribute('href', $temp);
         }
 
-        foreach ($dom->getElementsByTagName('img') as $item) {
+        //foreach ($dom->getElementsByTagName('img') as $item) {
             //$item->replaceWith()
             //$href = $item->getAttribute('src');
             //$href->replaceWith('data-src');
@@ -64,7 +60,7 @@ class Main extends Model
             //$server = self::after('/', $_SERVER['SERVER_NAME']);
             //$temp = $server . '/' . $href;
             //$item->setAttribute('href', $temp);
-        }
+        //}
 
         $html = $dom->saveHTML();
         libxml_use_internal_errors(false);
@@ -94,14 +90,23 @@ class Main extends Model
         return $html;
     }
 
-    public static function getHtmlElementByTag($string, $id_element)
+    public static function getHtmlElementByTag($string, $tag_element, $id_element_remove = null)
     {
         libxml_use_internal_errors(true);
         $dom = new DOMDocument;
         $dom->loadHTML($string);
         $html = null;
-        $id = $dom->getElementsByTagName($id_element);
+        $id = $dom->getElementsByTagName($tag_element);
         if (!is_null($id)) {
+            if (!is_null($id_element_remove)) {
+                if (is_array($id_element_remove)) foreach ($id_element_remove as $item_to_remove) {
+                    $id_remove = $dom->getElementById($item_to_remove);
+                    $id_remove->parentNode->removeChild($id_remove);
+                } else {
+                    $id_remove = $dom->getElementById($id_element_remove);
+                    $id_remove->parentNode->removeChild($id_remove);
+                }
+            }
             foreach ($id as $item) {
                 $html = $dom->saveHTML($item);
             }
@@ -118,7 +123,7 @@ class Main extends Model
 
     static public function getCurrentRoute()
     {
-        return self::after($_SERVER['HTTP_HOST'], url()->current());
+        return (isset($_SERVER['HTTP_HOST']) && !empty($_SERVER['HTTP_HOST'])) ? self::after($_SERVER['HTTP_HOST'], url()->current()) : null;
     }
 
     static function curl_get_contents($page_url, $pause_time, $retry)

@@ -17,10 +17,8 @@ class HeaderMiddleware
     public function handle($request, Closure $next)
     {
         view()->share(['headerItems' => [
-            'headerUserItems' => HeaderPanel::getUserItems(),
-            'headerAdminItems' => HeaderPanel::getAdminItems(),
-            'headerModeratorItems' => HeaderPanel::getModeratorItems(),
-        ]
+            'headerItems' => HeaderPanel::getHeaderItems(),
+        ],
         ]);
         return $next($request);
     }

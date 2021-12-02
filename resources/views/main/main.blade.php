@@ -5,33 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ИИТУТС @yield('title')</title>
+    <?= $title ?>
     <link rel="stylesheet" href={{ asset('css/app.css') }}>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://liblbt.yanao.ru/wp-includes/js/jquery/jquery.min.js?ver=3.6.0" id="jquery-core-js"></script>
+    <script type="text/javascript" src="https://liblbt.yanao.ru/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2" id="jquery-migrate-js"></script>
     <!--<script src={{ asset('libs/jquery.js') }}></script>-->
     <script src={{ asset('js/app.js') }}></script>
     <!--<script src="https://raw.githubusercontent.com/ressio/lazy-load-xt/master/dist/jqlight.lazyloadxt.min.js"></script>-->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="jquery.lazyload.min.js" type="text/javascript"></script>
-    <?= $head ?>
 </head>
 <body>
 
-<?= $top_head ?>
-<?= $mast_head ?>
-
-<?= $main_nav ?>
+@include('inc.header')
 
 <main>
-    <div class="search-section">
-        <form role="search" method="get" class="search-form" action="https://localhost:3000/">
-            <label>
-                <span class="screen-reader-text">Искать:</span>
-                <input type="search" class="search-field" placeholder="Поиск…" value="" name="s" title="Искать:">
-            </label>
-            <input type="submit" class="search-submit" value="Поиск">
-        </form>
-    </div>
     <div class="content">
         <div class="container">
             <div class="inner-wrapper">
@@ -41,6 +29,8 @@
         </div>
     </div>
 </main>
+
+@include('inc.footer')
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"

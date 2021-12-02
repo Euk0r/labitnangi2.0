@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-
 Route::prefix('')->group(function () {
     //view("main.main", ['data' => \App\Http\Models\Main::getPage()])->name();
     //Route::view('/', 'main.main')->name('main');
@@ -12,7 +11,6 @@ Route::prefix('')->group(function () {
     //Route::get('/', 'App\Http\Controllers\Main@openPage')->name('page_url');
     Route::get(\App\Http\Models\Main::getCurrentRoute(), 'App\Http\Controllers\Main@openPage')->name('page_url');
 });
-
 /*
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
