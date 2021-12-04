@@ -14,7 +14,7 @@ class Main extends Controller
         //print_r($url);
         //$temp = strpos($url, 'liblbt.yanao.ru');
 
-        $page = \App\Http\Models\Main::getPage($url);
+        $page = \App\Http\Models\Main::getPage($url, ['catalog.liblbt.yanao.ru', 'wp-content']);
         $title = \App\Http\Models\Main::getHtmlElementByTag($page, 'title');
         //$head = \App\Http\Models\Main::getHtmlElementByTag($page, 'head');
         $footer_widgets = \App\Http\Models\Main::getHtmlElementById($page, 'footer-widgets');
@@ -22,7 +22,7 @@ class Main extends Controller
         //$mast_head = \App\Http\Models\Main::getHtmlElementById($page, 'masthead');
         $main_nav = \App\Http\Models\Main::getHtmlElementById($page, 'main-nav');
         $content_primary = \App\Http\Models\Main::getHtmlElementById($page, 'primary');
-        $content_sidebar = \App\Http\Models\Main::getHtmlElementById($page, 'sidebar-primary', 'custom_html-7');
+        $content_sidebar = \App\Http\Models\Main::getHtmlElementById($page, 'sidebar-primary', ['custom_html-7', 'text-32', 'custom_html-12', 'custom_html-20']);
         return view("main.main", [
             'title' => $title,
             //'head' => $head,

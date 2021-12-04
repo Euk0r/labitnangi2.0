@@ -1,4 +1,6 @@
+@import "node_modules/font-awesome/scss/font-awesome.scss";
 @import "variables.scss";
+@import "additional.scss";
 @import "default.scss";
 
 .main-header {
@@ -44,7 +46,12 @@ a:visited {
     color: $primary !important;
 }
 
+a:hover {
+    color: $secondary !important;
+}
+
 .btn-primary {
+    background: $primary !important;
     border-radius: 0 20px 20px 0;
     float: right;
     padding: 10px 15px;
@@ -54,12 +61,16 @@ a:visited {
     height: 43px;
 }
 
-.post, .page, .widget-area {
+.btn-primary:hover {
+    background-color: $secondary !important;
+}
+
+.post, .page, .widget-area, .page-title{
     background-color: white;
     border: 1px solid $devider;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
-    padding: 15px 10px 15px 10px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.15), 0 5px 5px rgba(0,0,0,0.12);
+    padding: 15px;
 }
 
 .post::after {
@@ -71,10 +82,14 @@ a:visited {
     top: 32px;
     height: 1px;
     background: $devider;
-    box-shadow: 0 0 2px rgba(0,0,0,0.25);
+    //box-shadow: 0 0 2px rgba(0,0,0,0.25);
 }
 
-.post:first-child, .page, .widget-area {
+.post:first-child, .page, .widget-area, .page-title {
     border-top: none;
     border-radius: 0 0 5px 5px;
+}
+
+.menu-grafik-meropriyatij3-container {
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.15), 0 5px 5px rgba(0,0,0,0.12);
 }

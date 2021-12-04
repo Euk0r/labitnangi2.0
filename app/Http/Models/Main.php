@@ -14,7 +14,7 @@ class Main extends Model
 {
     use HasFactory;
 
-    public static function getPage($url)
+    public static function getPage($url, $linksNotToFix = null)
     {
         /*
         $output = curl_init();    //подключаем курл
@@ -24,20 +24,31 @@ class Main extends Model
         $out = curl_exec($output);        //помещаем html-контент в строку
         curl_close($output);    //закрываем
         */
-        $out = self::curl_get_contents($url, 1, 0);
+        $out = self::curl_get_contents($url, 10, 0);
         //$out = file_get_html('https://liblbt.yanao.ru/');
         //print_r($out ['html']);
-        $content = self::fixUrls($out['html']);
+        $content = self::fixUrls($out['html'], $linksNotToFix);
         return $content;
     }
 
-    static function fixUrls($string)
+    static function fixUrls($string, $exceptions = null)
     {
         libxml_use_internal_errors(true);
         $dom = new DOMDocument;
         $dom->loadHTML($string);
         foreach ($dom->getElementsByTagName('a') as $item) {
             $href = $item->getAttribute('href');
+            $breaker = false;
+            if (!is_null($exceptions)) {
+                foreach ($exceptions as $exception) {
+                    $isLabitnangi = strpos($href, $exception);
+                    if (!$isLabitnangi === false) {
+                        $breaker = true;
+                        break;
+                    }
+                }
+            }
+            if ($breaker) continue;
             $isLabitnangi = strpos($href, 'liblbt.yanao.ru');
             if (!$isLabitnangi === false) {
                 $href = self::after('liblbt.yanao.ru', $href);
@@ -47,27 +58,35 @@ class Main extends Model
         }
 
         //foreach ($dom->getElementsByTagName('img') as $item) {
-            //$item->replaceWith()
-            //$href = $item->getAttribute('src');
-            //$href->replaceWith('data-src');
-            //$isLabitnangi = strpos($href, 'liblbt.yanao.ru');
-            //$item = str_replace('src', 'data-src', $item->getAttribute('href'));
-            //print_r( $href . ' /123/');
-            //$href = self::after('liblbt.yanao.ru', $href);
-            //print_r($href);
-            //$item->setAttribute('href', self::after('/', $_SERVER['SERVER_NAME']) . $href);
-            //$href = str_replace('/', '++', $item->getAttribute('href'));
-            //$server = self::after('/', $_SERVER['SERVER_NAME']);
-            //$temp = $server . '/' . $href;
-            //$item->setAttribute('href', $temp);
+        //$item->replaceWith()
+        //$href = $item->getAttribute('src');
+        //$href->replaceWith('data-src');
+        //$isLabitnangi = strpos($href, 'liblbt.yanao.ru');
+        //$item = str_replace('src', 'data-src', $item->getAttribute('href'));
+        //print_r( $href . ' /123/');
+        //$href = self::after('liblbt.yanao.ru', $href);
+        //print_r($href);
+        //$item->setAttribute('href', self::after('/', $_SERVER['SERVER_NAME']) . $href);
+        //$href = str_replace('/', '++', $item->getAttribute('href'));
+        //$server = self::after('/', $_SERVER['SERVER_NAME']);
+        //$temp = $server . '/' . $href;
+        //$item->setAttribute('href', $temp);
         //}
+
+        foreach ($dom->getElementsByTagName('img') as $item) {
+            $class = $item->getAttribute('class');
+            if (!is_null($class)) {
+                $item->setAttribute('class', 'lazy ' . $class);
+            }
+        }
 
         $html = $dom->saveHTML();
         libxml_use_internal_errors(false);
         return $html;
     }
 
-    public static function getHtmlElementById($string, $id_element, $id_element_remove = null)
+    public
+    static function getHtmlElementById($string, $id_element, $id_element_remove = null)
     {
         libxml_use_internal_errors(true);
         $dom = new DOMDocument;
@@ -90,7 +109,8 @@ class Main extends Model
         return $html;
     }
 
-    public static function getHtmlElementByTag($string, $tag_element, $id_element_remove = null)
+    public
+    static function getHtmlElementByTag($string, $tag_element, $id_element_remove = null)
     {
         libxml_use_internal_errors(true);
         $dom = new DOMDocument;
